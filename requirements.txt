@@ -1,0 +1,22 @@
+# --- Agent orchestration ---
+langgraph>=0.4
+langchain-core>=0.3
+
+# --- Open-source LLM backends (pick one or both) ---
+langchain-ollama>=0.3        # local models via Ollama (qwen3, gpt-oss, llama3.3, ...)
+langchain-openai>=0.3        # any OpenAI-compatible server: vLLM, LM Studio, Groq, Together, OpenRouter
+
+# --- Structured output / config ---
+pydantic>=2.7
+python-dotenv>=1.0
+
+# --- Market data, statistics & news ---
+yfinance>=0.2.54             # prices, fundamentals, analyst targets, news headlines
+pandas>=2.2
+numpy>=1.26
+
+# --- CLI output ---
+rich>=13.7
+
+# --- Dev / tests ---
+pytest>=8.0

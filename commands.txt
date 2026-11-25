@@ -1,0 +1,26 @@
+uv venv --python 3.12
+source .venv/bin/activate
+uv pip install -r requirements.txt
+python -c "import langgraph, langchain_ollama, yfinance, pandas, pydantic; print('ok')"
+.venv/bin/python -c "from langgraph.graph import StateGraph, START, END, MessagesState; from langgraph.prebuilt import ToolNode, tools_condition; from langchain_ollama import ChatOllama; print(\"ok\")"
+.venv/bin/python probe_yf.py
+.venv/bin/python -c "import requests, xml.etree.ElementTree as ET; r = requests.get('https://news.google.com/rss/search', params={'q':'NVIDIA stock when:7d','hl':'en-US','gl':'US','ceid':'US:en'}); print(len(ET.fromstring(r.content).findall('./channel/item')))"
+.venv/bin/python tools_draft.py
+.venv/bin/python -c "from tools_draft import get_price_stats, get_company_news; print(get_price_stats.invoke({'ticker':'NVDA'}))"
+mkdir -p app
+touch app/__init__.py
+.venv/bin/python -c "from app.tools import TOOLS; [print(t.name, t.args_schema.model_json_schema()[\"properties\"]) for t in TOOLS]"
+python -c "from app.tools import get_price_stats; print(get_price_stats.invoke({'ticker': 'NVDA'}))"
+python -c "from app.tools import get_company_news; print(get_company_news.invoke({'ticker': 'NVDA', 'days': 3, 'limit': 8}))"
+python -c "from app.tools import get_company_news; print(get_company_news.invoke({'ticker': 'KO', 'days': 3, 'limit': 6}))"
+python -c "from app.prompts import ANALYST_PROMPT, REPORT_PROMPT; print(ANALYST_PROMPT.format(ticker='NVDA'))"
+python -c "from app.schemas import AdviceReport; import json; print(json.dumps(AdviceReport.model_json_schema(), indent=2))"
+python -c "from app.schemas import AdviceReport; import json; print(json.dumps(AdviceReport.model_json_schema(), indent=2))"
+python -c "from app.schemas import AdviceReport; print(AdviceReport(ticker='NVDA', recommendation='maybe', rationale='x', evidences=[], risks=[], confidence_level=1.7))"
+sysctl -n machdep.cpu.brand_string hw.memsize
+df -h /
+ollama pull gpt-oss:20b
+ollama list
+PYTHONPATH=. python test_llm.py
+python main.py --help
+python main.py ko "Is it a good defensive hold for the next 6 months?"
